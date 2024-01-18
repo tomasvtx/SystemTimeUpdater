@@ -1,0 +1,40 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:SystemTimeUpdater.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        x:Class="SystemTimeUpdater.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/alarm-clock.ico"
+        Title="SystemTimeUpdater" CanResize="False" Width="500" Height="400">
+
+	<Design.DataContext>
+		<!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+		<vm:MainWindowViewModel/>
+	</Design.DataContext>
+
+	<Grid RowDefinitions="auto,auto,auto,auto,auto,auto,auto,auto" ColumnDefinitions="200,300">
+
+        <Label FontSize="30" Content="Získání času" Margin="5"></Label>
+        <Label FontSize="20" Grid.Row="1" Grid.Column="0" Content="Vyberte server" Margin="5"></Label>
+        <ComboBox Width="190" Grid.Row="2" Grid.Column="0" ItemsSource="{Binding NtpServers}" SelectedItem="{Binding SelectedNtpServers,Mode=TwoWay}" Margin="5">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Width="180" TextAlignment="Center" Text="{Binding ServerName}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <Label FontSize="20" Grid.Row="3" Grid.Column="0" Content="Čas Serveru:" Margin="5"/>
+        <Label FontSize="20" Grid.Row="3" Grid.Column="1" Content="{Binding NowServer}" Margin="5"/>
+        <Label FontSize="20" Grid.Row="4" Grid.Column="1" Content="{Binding SyncError}" Margin="5"/>
+
+        <Label Grid.Row="5" Grid.ColumnSpan="2" Grid.Column="0" FontSize="30" Content="CMOS" Margin="5,35,5,5"/>
+        <Label FontSize="20" Grid.Row="6" Grid.Column="0" Content="Čas CMOS:" Margin="5"/>
+		<Label FontSize="20" Grid.Row="6" Grid.Column="1" Content="{Binding NowCmos}" Margin="5"/>
+		
+        <Button Grid.Row="7" Grid.Column="1" HorizontalContentAlignment="Center" Content="Zapiš do CMOS aktuální čas" Command="{Binding WriteToCmosCommand}" Margin="5"/>
+	</Grid>
+</Window>
